@@ -1,0 +1,17 @@
+---
+- name: Update apt cache.
+  apt: update_cache=yes cache_valid_time=3600
+- name: Install x11vnc package
+  apt:
+    pkg:
+      - x11vnc
+- name: install x11vnc systemd unit file
+  template:
+    src: x11vnc.service
+    dest: /etc/systemd/system/x11vnc.service
+    mode: '0644'
+- name: Make sure x11vnc is running
+  systemd:
+    name: x11vnc.service
+    state: started
+    enabled: yes
